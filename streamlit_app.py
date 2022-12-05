@@ -33,6 +33,16 @@ try:
 except URLError as e:    
     streamlit.error()
 
+    def insert_row_snowflake(new_fruit):
+        with my_cnx.cursor():
+        my_cur.execute("insert into PC_RIVERY_DB.PUBLIC.fruit_load_list values('from streamlit')")
+        return "Thanks for adding "+new_fruit
+    add_my_fruit = streamlit.text_input('What fruit would you like to add?')
+    if streamlit.button('Add a fruit to the list'):
+        mycnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+        back_from_function = insert_row_snowflake(new_fruit)
+        streamlit.dataframe(back_from_function)
+        
 streamlit.stop()
 
 my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
